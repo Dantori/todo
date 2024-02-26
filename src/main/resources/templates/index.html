@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="">
+<head>
+    <title>Главная</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div>
+    <h3 th:text="${#httpServletRequest.userPrincipal.name}"></h3>
+    <sec:authorize access="isAuthenticated()">
+        <h4><a th:href="@{/logout}">Выйти</a></h4>
+    </sec:authorize>
+    <h4><a th:href="@{/todos}">Новости (только пользователь)</a></h4>
+    <h4><a th:href="@{/admin}">Пользователи (только админ)</a></h4>
+</div>
+</body>
+</html>

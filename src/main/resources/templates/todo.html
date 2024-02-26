@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="utf-8">
+    <title>Новости</title>
+</head>
+<body>
+<div th:if="${#authorization.expression('isAuthenticated()')}">
+
+    <h2>Your Todos:</h2>
+    <ul>
+        <li th:each="todo : ${allTodos}">
+            <span th:text="${todo.description}"></span> -
+                <span th:text="${todo.completed} ? 'Completed' : 'Pending'"></span>
+            <form th:action="@{/todos/update/{id}(id=${todo.id})}" method="post">
+                <label>
+                    <input type="checkbox" th:checked="${todo.completed}" onchange="this.form.submit()" />
+                </label>
+            </form>
+            <form th:action="@{/todos/delete/{id}(id=${todo.id})}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    </ul>
+
+    <h2>Add a new Todo:</h2>
+    <form th:action="@{/todos/add}" method="post" th:object="${newTodo}">
+        <label>
+            <input type="text" th:field="*{description}" />
+        </label>
+        <button type="submit">Add</button>
+    </form>
+
+    <a href="/">Главная</a>
+</div>
+</body>
+</html>
