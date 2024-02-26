@@ -3,32 +3,53 @@
 <head>
     <meta charset="utf-8">
     <title>Новости</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .todo-table label {
+            margin-bottom: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            padding: 20px;
+        }
+
+        .table-responsive {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
 <div th:if="${#authorization.expression('isAuthenticated()')}">
-
-    <h2>Your Todos:</h2>
-    <ul>
-        <li th:each="todo : ${allTodos}">
-            <span th:text="${todo.description}"></span> -
-                <span th:text="${todo.completed} ? 'Completed' : 'Pending'"></span>
-            <form th:action="@{/todos/update/{id}(id=${todo.id})}" method="post">
-                <label>
+    <h3>Your Todos:</h3>
+    <div class="table-responsive">
+        <table class="table">
+            <tbody>
+            <tr th:each="todo : ${allTodos}" class="todo-table">
+                <td>
                     <input type="checkbox" th:checked="${todo.completed}" onchange="this.form.submit()" />
-                </label>
-            </form>
-            <form th:action="@{/todos/delete/{id}(id=${todo.id})}" method="post">
-                <button type="submit">Delete</button>
-            </form>
-        </li>
-    </ul>
+                </td>
+                <td th:text="${todo.description}"></td>
+                <td>
+                    <form th:action="@{/todos/delete/{id}(id=${todo.id})}" method="post">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <h2>Add a new Todo:</h2>
-    <form th:action="@{/todos/add}" method="post" th:object="${newTodo}">
-        <label>
-            <input type="text" th:field="*{description}" />
-        </label>
-        <button type="submit">Add</button>
+    <h3>Add a new Todo:</h3>
+    <form th:action="@{/todos/add}" method="post" th:object="${newTodo}" class="form-inline">
+        <div class="form-group">
+            <input type="text" class="form-control" th:field="*{description}" />
+        </div>
+        <button type="submit" class="btn btn-primary ml-2">Add</button>
     </form>
 
     <a href="/">Главная</a>

@@ -3,16 +3,27 @@
 <head>
   <meta charset="utf-8">
   <title>Log in with your account</title>
+  <!-- Add Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Optional custom styles */
+    /* Add your custom CSS styles here */
+  </style>
 </head>
 <body>
-<div>
-  <table>
-    <thead>
-    <th>ID</th>
-    <th>UserName</th>
-    <th>Password</th>
-    <th>Roles</th>
+<div class="container">
+  <h2>Users</h2> <!-- Optional heading for the table -->
+  <table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+    <tr>
+      <th>ID</th>
+      <th>UserName</th>
+      <th>Password</th>
+      <th>Roles</th>
+      <th>Action</th>
+    </tr>
     </thead>
+    <tbody>
     <tr th:each="user : ${allUsers}">
       <td th:text="${user.id}">1</td>
       <td th:text="${user.username}">Username</td>
@@ -24,12 +35,18 @@
         <form th:action="@{|${#httpServletRequest.getContextPath()}/admin|}" method="post">
           <input type="hidden" name="userId" th:value="${user.id}"/>
           <input type="hidden" name="action" value="delete"/>
-          <button type="submit">Delete</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
         </form>
       </td>
     </tr>
+    </tbody>
   </table>
-  <a th:href="@{/}">Главная</a>
+  <a th:href="@{/}" class="btn btn-primary">Главная</a>
 </div>
+
+<!-- Optional: Add Bootstrap JS if needed -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -3,15 +3,25 @@
 <head>
     <title>Главная</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Optional custom styles */
+        /* Add your custom CSS styles here */
+    </style>
 </head>
 <body>
-<div>
+<div class="container">
     <h3 th:text="${#httpServletRequest.userPrincipal.name}"></h3>
     <sec:authorize access="isAuthenticated()">
-        <h4><a th:href="@{/logout}">Выйти</a></h4>
+        <h4><a th:href="@{/logout}" class="btn btn-primary">Выйти</a></h4>
     </sec:authorize>
-    <h4><a th:href="@{/todos}">Новости (только пользователь)</a></h4>
-    <h4><a th:href="@{/admin}">Пользователи (только админ)</a></h4>
+    <h4><a th:href="@{/todos}" class="btn btn-info">Новости (только пользователь)</a></h4>
+    <h4><a th:href="@{/admin}" class="btn btn-danger">Пользователи (только админ)</a></h4>
 </div>
+
+<!-- Optional: Add Bootstrap JS if needed -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
