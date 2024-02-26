@@ -9,7 +9,9 @@ import ru.trofimov.todolist.domain.account.User;
 import ru.trofimov.todolist.domain.todo.Todo;
 import ru.trofimov.todolist.service.TodoService;
 
-@Controller()
+import java.util.List;
+
+@Controller
 @RequestMapping("/todos")
 public class TodoController {
 
@@ -21,31 +23,32 @@ public class TodoController {
     }
 
     @GetMapping
-    public String todo(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("allTodos", todoService.getAllByUserId(user.getId()));
+    public String getTodoList(Model model, @AuthenticationPrincipal User user) {
+        List<Todo> todos = todoService.getAllByUserId(user.getId());
+        model.addAttribute("todos", todos);
         model.addAttribute("newTodo", new Todo());
         return "todo";
     }
 
     @PostMapping("/add")
-    public String addTodo(@AuthenticationPrincipal User user, @ModelAttribute Todo newTodo) {
+    public String addTodo(@ModelAttribute("newTodo") Todo newTodo, @AuthenticationPrincipal User user) {
         newTodo.setUser(user);
         todoService.addTodo(newTodo);
         return "redirect:/todos";
     }
 
-    @PostMapping("/update/{id}")
-    public String updateTodoStatus(@PathVariable Long id) {
+    @PostMapping("/{id}/toggle")
+    public String toggleTodoStatus(@PathVariable("id") Long id) {
         Todo todo = todoService.getById(id);
         todo.setCompleted(!todo.isCompleted());
         todoService.addTodo(todo);
         return "redirect:/todos";
     }
 
-
-    @PostMapping("/delete/{id}")
-    public String deleteTodo(@PathVariable Long id) {
+    @PostMapping("/{id}/delete")
+    public String deleteTodoById(@PathVariable Long id) {
         todoService.deleteTodoById(id);
         return "redirect:/todos";
     }
 }
+
